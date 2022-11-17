@@ -45,4 +45,9 @@ class User extends Authenticatable
     public function menu(){
         return $this->hasOne(Menu::class);
     }
+
+    public function generateNewToken(string $device_name){
+        $this->tokens()->where('name',$device_name)->delete();
+        return $this->createToken($device_name)->plainTextToken;
+    }
 }
