@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
@@ -18,11 +19,18 @@ class AuthController extends Controller
     }
 
     public function login(Request $request) {
-        $request->validate([
+        
+        $validator = Validator::make($request->all(),[
             'email' => 'required|email',
             'password' => 'required',
             'device_name' => 'required',
         ]);
+
+        if(!$validator->passes()){
+            return response()->json([
+                'errors' => $validator->errors()->toArray(),
+            ],422);
+        }
 
         return $this->attemptLogin(
             $request->email,
@@ -77,9 +85,11 @@ class AuthController extends Controller
             ],200);
 
         }else{
-            throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
-            ]);
+            return response()->json([
+                'errors' => [
+                    'credentials' => ['The provided credentials are incorrect.'],
+                ]
+            ],422);
         }
     }
 }
