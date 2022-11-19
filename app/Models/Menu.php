@@ -31,4 +31,8 @@ class Menu extends Model
     public function isOwner(User $user){
         return $this->owner->id == $user->id;
     }
+
+    public function mainCategories(){
+        return $this->categories()->mainCategories();
+    }
 }

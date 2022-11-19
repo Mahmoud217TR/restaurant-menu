@@ -1,12 +1,19 @@
 <template>
-    <header class="bg-lime-600 sticky top-0 min-h-[10vh]">
+    <header class="bg-slate-900 sticky top-0 min-h-[10vh] shadow-lg z-50">
         <nav class="text-center p-4 mx-auto container flex items-center justify-between">
             <router-link to='/' class="text-white">
                 <img src="/images/logo.svg" alt="Logo" class="logo" width="40">
             </router-link>
             <ul class="flex-row">
                 <li class="inline-block mx-2">
-                    <router-link to='/' class="text-white" exact-active-class="font-bold"> Home </router-link>
+                    <router-link to='/menu' class="text-white px-2" exact-active-class="font-bold"> 
+                        <i class="fa-solid fa-book-open mx-2"></i>
+                        <span>Menus</span>
+                    </router-link>
+                    <router-link to='/dashboard' class="text-white px-2" exact-active-class="font-bold" v-if="auth"> 
+                        <i class="fa-solid fa-gauge-high mx-2"></i>
+                        <span>Dashboard</span>
+                    </router-link>
                 </li>
             </ul>
             <div class="">
@@ -16,10 +23,10 @@
             </div>
         </nav>
     </header>
-    <main class="pt-8 min-h-[80vh] bg-lime-200">
-        <router-view></router-view>
+    <main class="pt-8 min-h-[80vh] bg-neutral-600">
+        <router-view @auth-change="updateAuth"></router-view>
     </main>
-    <footer class="bg-orange-600 min-h-[10vh]">
+    <footer class="bg-slate-900 min-h-[10vh]">
         <p class="text-center text-white font-bold p-4">
             © All Rights Reserved
         </p>
@@ -28,22 +35,31 @@
 
 <script>
     export default {
-        computed: {
-            auth(){
-                return localStorage.getItem('token') != null;
-            },
-            guest(){
-                return !this.auth;
+        data() {
+            return {
+                auth: false,
+                guest: true,
+            }
+        },
+        methods: {
+            updateAuth(e){
+                this.auth = localStorage.getItem('token');
+                this.guest = !this.auth;
+                axios.defaults.headers.common["Authorization"] = "Bearer " + localStorage.getItem('token');
             },
             logout(){
                 axios.get('/sanctum/csrf-cookie').then(csrf_response =>{
                     axios.post('/api/logout').then(response => {
                         localStorage.removeItem('token');
+                        this.updateAuth();
                     })
                 }).catch(error => {
                     
-                });;
+                });
             },
+        },
+        created() {
+            this.updateAuth();
         },
     }
 </script>

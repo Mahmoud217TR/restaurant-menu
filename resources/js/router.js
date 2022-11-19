@@ -1,13 +1,29 @@
 import {createWebHistory, createRouter } from 'vue-router/dist/vue-router.esm-bundler';
+import Welcome from "./components/Welcome.vue";
 import Home from "./components/Home.vue";
-import Login from "./components/Login.vue";
-import Register from "./components/Register.vue";
+import MenuIndex from "./components/Menu/Index.vue";
+import MenuShow from "./components/Menu/Show.vue";
+import Login from "./components/Auth/Login.vue";
+import Register from "./components/Auth/Register.vue";
+import NotFound from "./components/Errors/NotFound.vue";
 
 
 export const routes = [
     {
         path: '/',
+        component: Welcome,
+    },
+    {
+        path: '/dashboard',
         component: Home,
+    },
+    {
+        path: '/menu',
+        component: MenuIndex,
+    },
+    {
+        path: '/menu/:id',
+        component: MenuShow,
     },
     {
         path: '/login',
@@ -23,6 +39,10 @@ export const routes = [
             guest: true,
         },
     },
+    {
+        path: '/:pathMatch(.*)*',
+        component: NotFound,
+    }
 ];
 
 const router = createRouter({

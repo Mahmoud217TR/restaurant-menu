@@ -7,3 +7,28 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.menu-header-discount{
+    position: relative;
+}
+
+.menu-header-discount::before{
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    border-width: 0 0 6rem 6rem;
+    border-color: transparent transparent hsl(0, 72%, 51%) transparent;
+}
+
+.menu-header-discount{
+    .discount-amount{
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        color: white;
+        rotate: -45deg;
+        transform: translateY(-75%);
+    }
+}

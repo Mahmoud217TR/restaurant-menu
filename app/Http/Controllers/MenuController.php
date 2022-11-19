@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Menu;
 use App\Http\Requests\StoreMenuRequest;
 use App\Http\Requests\UpdateMenuRequest;
+use App\Http\Resources\MenuResource;
 
 class MenuController extends Controller
 {
@@ -15,7 +16,9 @@ class MenuController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json([
+            'menus' => MenuResource::collection(Menu::all()),
+        ],200);
     }
 
     /**
@@ -47,7 +50,9 @@ class MenuController extends Controller
      */
     public function show(Menu $menu)
     {
-        //
+        return response()->json([
+            'menu' => new MenuResource($menu->load('mainCategories')),
+        ],200);
     }
 
     /**

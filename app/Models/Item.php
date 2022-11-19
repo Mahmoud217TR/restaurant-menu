@@ -7,6 +7,9 @@ use Cknow\Money\MoneyCast;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property Money $price
+ */
 class Item extends Model
 {
     use HasFactory;
@@ -39,5 +42,9 @@ class Item extends Model
 
     public function isOwner(User $user){
         return $this->category->isOwner($user);
+    }
+
+    public function getCalculatedPriceAttribute(){
+        return $this->price->subtract($this->price->multiply($this->calculated_discount/100));
     }
 }
