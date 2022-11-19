@@ -8,6 +8,15 @@
 @tailwind components;
 @tailwind utilities;
 
+
+$navbar-height: 5rem;
+$footer-height: 5rem;
+
+html,body{
+    min-height: 100vh;
+    max-height: max-content;
+}
+
 .menu-header-discount{
     position: relative;
 }
@@ -34,4 +43,24 @@
 
 textarea{
     resize: none;
+}
+
+.navbar{
+    height: $navbar-height;
+}
+
+.menu{
+    position: absolute;
+    top: $navbar-height;
+    width: 100%;
+    height: 100vh;
+    transition: all 1s ease;
+}
+
+footer{
+    height: $footer-height;
+}
+
+main{
+    min-height: calc(100vh - ($navbar-height + $footer-height));
 }

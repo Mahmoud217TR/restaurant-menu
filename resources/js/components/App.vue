@@ -1,5 +1,5 @@
 <template>
-    <header class="bg-slate-900 sticky top-0 min-h-[10vh] shadow-lg z-50">
+    <header class="bg-slate-900 sticky top-0 min-h-[10vh] shadow-lg z-50 navbar">
         <nav class="text-center p-4 mx-auto container flex items-center justify-between">
             <router-link to='/' class="text-white">
                 <img src="/images/logo.svg" alt="Logo" class="logo" width="40">

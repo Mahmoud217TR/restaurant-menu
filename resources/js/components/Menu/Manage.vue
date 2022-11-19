@@ -1,7 +1,7 @@
 <template>
     <div class="container w-4/5 mx-auto">
         <h1 class="text-white text-center font-bold text-xl">Menus</h1>
-        <div class="grid grid-cols-1 mt-24 justify-items-center">
+        <div class="grid grid-cols-1 mt-24 justify-items-center overflow-auto">
             <table class="w-full p-4">
                 <tr class="bg-slate-900 text-white">
                     <th class="p-4">ID</th>
