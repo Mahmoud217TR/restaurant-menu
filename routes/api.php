@@ -25,6 +25,9 @@ Route::post('/register', [AuthController::class,'register'])->name('register');
 Route::prefix('menu')->group(function(){
     Route::get('/', [MenuController::class,'index'])->name('menu.index');
     Route::get('/{menu}', [MenuController::class,'show'])->name('menu.show');
+    Route::middleware(['auth:sanctum'])->group(function(){
+        Route::post('/', [MenuController::class,'store'])->name('menu.store');
+    });
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {

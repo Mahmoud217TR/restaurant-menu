@@ -21,12 +21,12 @@
                             <span class="text-red-600 font-bold my-2"> {{ messages['name'] }} </span>
                         </div>
                         <div class="block mb-4">
-                            <label class="block text-slate-900 font-bold text-lg" for="email">Password</label>
+                            <label class="block text-slate-900 font-bold text-lg" for="password">Password</label>
                             <input class="block w-full mt-2 rounded-sm h-8 p-2 text-slate-900 focus:outline-none" :class="{'border-2 border-red-600':errors['password']}" type="password" required ref="password">
                             <span class="text-red-600 font-bold my-2"> {{ messages['password'] }} </span>
                         </div>
                         <div class="block mb-4">
-                            <label class="block text-slate-900 font-bold text-lg" for="email">Password Confirm</label>
+                            <label class="block text-slate-900 font-bold text-lg" for="password_confirmation">Password Confirm</label>
                             <input class="block w-full mt-2 rounded-sm h-8 p-2 text-slate-900 focus:outline-none" :class="{'border-2 border-red-600':errors['password_confirmation']}" type="password" required ref="password_confirmation">
                             <span class="text-red-600 font-bold my-2"> {{ messages['password_confirmation'] }} </span>
                         </div>

@@ -6,6 +6,9 @@ use App\Models\Menu;
 use App\Http\Requests\StoreMenuRequest;
 use App\Http\Requests\UpdateMenuRequest;
 use App\Http\Resources\MenuResource;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class MenuController extends Controller
 {
@@ -22,24 +25,35 @@ class MenuController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\StoreMenuRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreMenuRequest $request)
+    public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(),[
+            'title' => 'required',
+            'description' => 'required',
+            'discount' => 'nullable|numeric|max:100|min:0',
+        ]);
+        
+        if(!$validator->passes()){
+            return response()->json([
+                'errors' => $validator->errors()->toArray(),
+            ],422);
+        }
+        
+        $menu = Menu::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'discount' => $request->discount,
+            'user_id' => auth()->id(),
+        ]);
+
+        return response()->json([
+            'menu' => new MenuResource($menu),
+        ],200);
     }
 
     /**
@@ -73,7 +87,7 @@ class MenuController extends Controller
      * @param  \App\Models\Menu  $menu
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateMenuRequest $request, Menu $menu)
+    public function update(Request $request, Menu $menu)
     {
         //
     }
