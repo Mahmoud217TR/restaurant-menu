@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\API\CreateMenuAction;
 use App\Models\Menu;
 use App\Http\Requests\StoreMenuRequest;
 use App\Http\Requests\UpdateMenuRequest;
@@ -37,7 +38,7 @@ class MenuController extends Controller
      * @param  \App\Http\Requests\StoreMenuRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, CreateMenuAction $action)
     {
         $validator = Validator::make($request->all(),[
             'title' => 'required',
@@ -51,12 +52,7 @@ class MenuController extends Controller
             ],422);
         }
         
-        $menu = Menu::create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'discount' => $request->discount,
-            'user_id' => auth()->id(),
-        ]);
+        $menu = $action->execute($request->all());
 
         return response()->json([
             'menu' => new MenuResource($menu),

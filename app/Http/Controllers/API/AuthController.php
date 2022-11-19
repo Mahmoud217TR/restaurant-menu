@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Actions\API\CreateUserAction;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
 use App\Models\User;
@@ -39,8 +40,8 @@ class AuthController extends Controller
         );
     }
 
-    public function register(Request $request) {
-        
+    public function register(Request $request, CreateUserAction $action) {
+
         $validator = Validator::make($request->all(),[
             'email' => 'required|email|unique:users,email',
             'name' => 'required',
@@ -54,11 +55,7 @@ class AuthController extends Controller
             ],422);
         }
         
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+        $action->execute($request->name, $request->email, $request->password);
 
         return $this->attemptLogin(
             $request->email,
