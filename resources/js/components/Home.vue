@@ -8,7 +8,7 @@
                         <span>Create a new Menu</span>
                 </div>
             </router-link>
-            <router-link to='/' class="min-w-[50%] max-w-[50%] min-h-[12rem] bg-gradient-to-tr from-slate-900 via-slate-800 to-slate-900 flex justify-center items-center shadow-lg text-white font-bold text-lg hover:from-slate-800 hover:via-slate-700 hover:to-slate-800">
+            <router-link to='/menu/manage' class="min-w-[50%] max-w-[50%] min-h-[12rem] bg-gradient-to-tr from-slate-900 via-slate-800 to-slate-900 flex justify-center items-center shadow-lg text-white font-bold text-lg hover:from-slate-800 hover:via-slate-700 hover:to-slate-800">
                 <div class="text-center max-w-max">
                         <i class="fa-solid fa-book-open block mb-2 text-4xl"></i>
                         <span>Manage Menus</span>

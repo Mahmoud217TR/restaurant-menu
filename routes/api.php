@@ -23,11 +23,13 @@ Route::post('/login', [AuthController::class,'login'])->name('login');
 Route::post('/register', [AuthController::class,'register'])->name('register');
 
 Route::prefix('menu')->group(function(){
+    Route::middleware(['auth:sanctum'])->group(function(){
+        Route::get('/manage', [MenuController::class,'manage'])->name('menu.manage');
+        Route::post('/', [MenuController::class,'store'])->name('menu.store');
+        Route::delete('/{menu}', [MenuController::class,'destroy'])->name('menu.destroy');
+    });
     Route::get('/', [MenuController::class,'index'])->name('menu.index');
     Route::get('/{menu}', [MenuController::class,'show'])->name('menu.show');
-    Route::middleware(['auth:sanctum'])->group(function(){
-        Route::post('/', [MenuController::class,'store'])->name('menu.store');
-    });
 });
 
 Route::middleware(['auth:sanctum'])->group(function () {

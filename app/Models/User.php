@@ -42,8 +42,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function menu(){
-        return $this->hasOne(Menu::class);
+    public function menus(){
+        return $this->hasMany(Menu::class);
     }
 
     public function generateNewToken(string $device_name){

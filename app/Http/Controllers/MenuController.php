@@ -24,6 +24,13 @@ class MenuController extends Controller
         ],200);
     }
 
+    public function manage()
+    {
+        return response()->json([
+            'menus' => MenuResource::collection(auth()->user()->menus),
+        ],200);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -100,6 +107,10 @@ class MenuController extends Controller
      */
     public function destroy(Menu $menu)
     {
-        //
+        $this->authorize('delete',$menu);
+        $menu->delete();
+        return response()->json([
+            'menus' => MenuResource::collection(auth()->user()->menus),
+        ],200);
     }
 }

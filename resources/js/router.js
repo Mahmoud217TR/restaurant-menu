@@ -4,6 +4,7 @@ import Home from "./components/Home.vue";
 import MenuIndex from "./components/Menu/Index.vue";
 import MenuShow from "./components/Menu/Show.vue";
 import MenuCreate from "./components/Menu/Create.vue";
+import MenuManage from "./components/Menu/Manage.vue";
 import Login from "./components/Auth/Login.vue";
 import Register from "./components/Auth/Register.vue";
 import NotFound from "./components/Errors/NotFound.vue";
@@ -28,6 +29,13 @@ export const routes = [
     {
         path: '/menu/:id',
         component: MenuShow,
+    },
+    {
+        path: '/menu/manage',
+        component: MenuManage,
+        meta:{
+            auth: true,
+        },
     },
     {
         path: '/menu/create',
