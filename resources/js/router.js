@@ -16,6 +16,9 @@ export const routes = [
     {
         path: '/dashboard',
         component: Home,
+        meta:{
+            guest: true,
+        },
     },
     {
         path: '/menu',

@@ -4,18 +4,7 @@
             <router-link to='/' class="text-white">
                 <img src="/images/logo.svg" alt="Logo" class="logo" width="40">
             </router-link>
-            <ul class="flex-row">
-                <li class="inline-block mx-2">
-                    <router-link to='/menu' class="text-white px-2" exact-active-class="font-bold"> 
-                        <i class="fa-solid fa-book-open mx-2"></i>
-                        <span>Menus</span>
-                    </router-link>
-                    <router-link to='/dashboard' class="text-white px-2" exact-active-class="font-bold" v-if="auth"> 
-                        <i class="fa-solid fa-gauge-high mx-2"></i>
-                        <span>Dashboard</span>
-                    </router-link>
-                </li>
-            </ul>
+            <Navbar></Navbar>
             <div class="">
                 <router-link to='/login' v-if="guest" exact-active-class="font-bold" class="text-white mx-2"> Login </router-link>
                 <router-link to='/register' v-if="guest" exact-active-class="font-bold" class="text-white mx-2"> Register </router-link>
@@ -26,15 +15,14 @@
     <main class="pt-8 min-h-[80vh] bg-neutral-600">
         <router-view @auth-change="updateAuth"></router-view>
     </main>
-    <footer class="bg-slate-900 min-h-[10vh]">
-        <p class="text-center text-white font-bold p-4">
-            © All Rights Reserved
-        </p>
-    </footer>
+    <Footer></Footer>
 </template>
 
 <script>
+import Footer from './Layouts/Footer.vue';
+import Navbar from './Layouts/Navbar.vue';
     export default {
+        components: { Navbar, Footer },
         data() {
             return {
                 auth: false,
