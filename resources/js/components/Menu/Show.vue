@@ -10,12 +10,12 @@
                 </h2>
             </div>
             <div class="md:col-span-2 shadow-lg">
-                <div class="border-2 border-solid border-slate-900 p-4">
-                    <h1 class="text-center text-2xl font-bold text-white">
+                <div class="border-2 border-solid border-slate-900 p-4 bg-gray-300">
+                    <h1 class="text-center text-2xl font-bold text-slate-900">
                         <i class="fa-solid fa-utensils mx-2"></i>
                         <span>{{ title }}</span>
                     </h1>
-                    <p class="text-center text-neutral-400 text-sm mt-2">{{ description }}</p>
+                    <p class="text-center text-neutral-700 text-sm mt-2">{{ description }}</p>
                 </div>
             </div>
         </div>

@@ -74,7 +74,7 @@
                 this.messages = [];
             },
             redirectHome(){
-                this.$router.push('/')
+                this.$router.push('/dashboard')
             }
         },
     }

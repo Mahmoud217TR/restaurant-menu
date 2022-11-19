@@ -12,7 +12,7 @@
             </div>
         </nav>
     </header>
-    <main class="pt-8 min-h-[80vh] bg-neutral-600">
+    <main class="pt-8 min-h-[80vh]">
         <router-view @auth-change="updateAuth"></router-view>
     </main>
     <Footer></Footer>
@@ -35,11 +35,15 @@ import Navbar from './Layouts/Navbar.vue';
                 this.guest = !this.auth;
                 axios.defaults.headers.common["Authorization"] = "Bearer " + localStorage.getItem('token');
             },
+            redirectWelcome(){
+                this.$router.push('/');
+            },
             logout(){
                 axios.get('/sanctum/csrf-cookie').then(csrf_response =>{
                     axios.post('/api/logout').then(response => {
                         localStorage.removeItem('token');
                         this.updateAuth();
+                        this.redirectWelcome();
                     })
                 }).catch(error => {
                     

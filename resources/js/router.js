@@ -3,6 +3,7 @@ import Welcome from "./components/Welcome.vue";
 import Home from "./components/Home.vue";
 import MenuIndex from "./components/Menu/Index.vue";
 import MenuShow from "./components/Menu/Show.vue";
+import MenuCreate from "./components/Menu/Create.vue";
 import Login from "./components/Auth/Login.vue";
 import Register from "./components/Auth/Register.vue";
 import NotFound from "./components/Errors/NotFound.vue";
@@ -17,7 +18,7 @@ export const routes = [
         path: '/dashboard',
         component: Home,
         meta:{
-            guest: true,
+            auth: true,
         },
     },
     {
@@ -27,6 +28,13 @@ export const routes = [
     {
         path: '/menu/:id',
         component: MenuShow,
+    },
+    {
+        path: '/menu/create',
+        component: MenuCreate,
+        meta:{
+            auth: true,
+        },
     },
     {
         path: '/login',
