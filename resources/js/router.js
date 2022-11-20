@@ -47,6 +47,13 @@ export const routes = [
         },
     },
     {
+        path: '/menu/:id/edit',
+        component: MenuEdit,
+        meta:{
+            auth: true,
+        },
+    },
+    {
         path: '/login',
         component: Login,
         meta:{

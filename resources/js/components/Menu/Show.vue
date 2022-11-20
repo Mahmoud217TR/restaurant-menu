@@ -54,7 +54,7 @@
                         this.author = response.data.menu.author;
                         this.categories = response.data.menu.categories;
                     }).catch(error => {
-                        if(error.code == "ERR_BAD_REQUEST"){
+                        if(error.response.status == 404){
                             this.redirectTo404();
                         }
                     });

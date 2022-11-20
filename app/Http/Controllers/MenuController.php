@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Actions\API\CreateMenuAction;
+use App\Actions\API\UpdateMenuAction;
 use App\Models\Menu;
 use App\Http\Requests\StoreMenuRequest;
 use App\Http\Requests\UpdateMenuRequest;
 use App\Http\Resources\MenuResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 
 class MenuController extends Controller
@@ -80,7 +82,17 @@ class MenuController extends Controller
      */
     public function edit(Menu $menu)
     {
-        //
+        $edit_menu = Gate::inspect('update', $menu);
+
+        if($edit_menu->allowed()){
+            return response()->json([
+                'menu' => new MenuResource($menu->load('mainCategories')),
+            ],200);
+        }else{
+            return response()->json([
+                'message' => 'Unauthorized Action',
+            ],403);
+        }
     }
 
     /**
@@ -90,9 +102,33 @@ class MenuController extends Controller
      * @param  \App\Models\Menu  $menu
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Menu $menu)
+    public function update(Request $request, Menu $menu, UpdateMenuAction $action)
     {
-        //
+        $edit_menu = Gate::inspect('update', $menu);
+        
+        if($edit_menu->allowed()){
+            $validator = Validator::make($request->all(),[
+                'title' => 'required',
+                'description' => 'required',
+                'discount' => 'nullable|numeric|max:100|min:0',
+            ]);
+
+            if(!$validator->passes()){
+                return response()->json([
+                    'errors' => $validator->errors()->toArray(),
+                ],422);
+            }
+            
+            $menu = $action->execute($menu, $request->all());
+            
+            return response()->json([
+                'menu' => new MenuResource($menu->load('mainCategories')),
+            ],200);
+        }else{
+            return response()->json([
+                'message' => 'Unauthorized Action',
+            ],403);
+        }
     }
 
     /**

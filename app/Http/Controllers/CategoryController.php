@@ -2,9 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\API\CreateCategoryAction;
 use App\Models\Category;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
+use App\Http\Resources\MenuResource;
+use App\Models\Menu;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
@@ -18,25 +24,35 @@ class CategoryController extends Controller
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function store(Menu $menu, Request $request, CreateCategoryAction $action)
     {
-        //
-    }
+        $edit_menu = Gate::inspect('update', $menu);
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreCategoryRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreCategoryRequest $request)
-    {
-        //
+        if($edit_menu->allowed()){
+            $validator = Validator::make($request->all(),[
+                'title' => 'required',
+                'discount' => 'nullable|numeric|max:100|min:0',
+            ]);
+            
+            if(!$validator->passes()){
+                $errors = collect($validator->errors()->toArray())->mapWithKeys(function($value,$key){
+                    return ['category_'.$key=>$value];
+                });
+                return response()->json([
+                    'errors' => $errors,
+                ],422);
+            }
+            
+            $category = $action->execute($menu, $request->all());
+    
+            return response()->json([
+                'menu' => new MenuResource($menu->load('mainCategories')),
+            ],200);
+        }else{
+            return response()->json([
+                'message' => 'Unauthorized Action',
+            ],403);
+        }
     }
 
     /**

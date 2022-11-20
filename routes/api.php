@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\TokenController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MenuController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,7 +27,11 @@ Route::prefix('menu')->group(function(){
     Route::middleware(['auth:sanctum'])->group(function(){
         Route::get('/manage', [MenuController::class,'manage'])->name('menu.manage');
         Route::post('/', [MenuController::class,'store'])->name('menu.store');
+        Route::get('/{menu}/edit', [MenuController::class,'edit'])->name('menu.edit');
+        Route::put('/{menu}', [MenuController::class,'update'])->name('menu.update');
         Route::delete('/{menu}', [MenuController::class,'destroy'])->name('menu.destroy');
+
+        Route::post('/{menu}/category', [CategoryController::class,'store'])->name('category.store');
     });
     Route::get('/', [MenuController::class,'index'])->name('menu.index');
     Route::get('/{menu}', [MenuController::class,'show'])->name('menu.show');

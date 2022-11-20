@@ -2,7 +2,8 @@
     <div class="container w-4/5 mx-auto">
         <h1 class="text-white text-center font-bold text-xl">Create a new Menu</h1>
         <div class="grid grid-cols-1 md:grid-cols-3 my-24 justify-items-center gap-4">
-            <div class="w-full shadow-xl col-start-2">
+            <div class="w-full shadow-xl col-start-2" data-aos="fade-up" data-aos-offset="200"
+            data-aos-delay="100" data-aos-duration="1000" data-aos-easing="ease-in-out">
                 <div class="bg-slate-900 text-white text-2xl font-bold p-4">
                     <h2> Menu Info </h2>
                 </div>
@@ -53,7 +54,7 @@
                         discount: this.$refs.discount.value,
                     }).then(response => {
                         this.$refs['menu-form'].reset();
-                        this.redirectToEdit();
+                        this.redirectToEdit(response.data.menu.id);
                     }).catch(error => {
                         var errors_list = error.response.data.errors;
                         for(var input_error in errors_list){
@@ -70,8 +71,8 @@
                 this.errors = [];
                 this.messages = [];
             },
-            redirectToEdit(){
-                this.$router.push('/dashboard')
+            redirectToEdit(id){
+                this.$router.push('/menu/'+id+'/edit')
             }
         },
     }
