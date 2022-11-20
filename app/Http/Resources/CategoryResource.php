@@ -18,6 +18,7 @@ class CategoryResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'discount' => $this->calculated_discount,
+            'contains' => $this->getContains(),
             'items' => $this->when($this->containsItems(), function(){
                 return ItemResource::collection($this->items()->orderBy('title')->get());
             }),

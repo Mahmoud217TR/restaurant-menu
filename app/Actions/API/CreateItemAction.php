@@ -2,11 +2,10 @@
 
 namespace App\Actions\API;
 
-use App\Models\Category;
-use App\Models\Menu;
+use App\Models\Item;
 use Spatie\QueueableAction\QueueableAction;
 
-class CreateCategoryAction
+class CreateItemAction
 {
     use QueueableAction;
 
@@ -25,12 +24,8 @@ class CreateCategoryAction
      *
      * @return mixed
      */
-    public function execute(Menu $menu, $data, $parent_id = null)
+    public function execute($data)
     {
-        $category = $menu->categories()->create($data);
-        if($parent_id){
-            Category::find($parent_id)->assignCategory($category);
-        }
-        return $category;
+        return Item::create($data);
     }
 }

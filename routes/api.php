@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\API\TokenController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ItemController;
 use App\Http\Controllers\MenuController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -33,6 +34,9 @@ Route::prefix('menu')->group(function(){
 
         Route::post('/{menu}/category', [CategoryController::class,'store'])->name('category.store');
         Route::delete('/category/{category}', [CategoryController::class,'destroy'])->name('category.destory');
+        
+        Route::post('/{menu}/item', [ItemController::class,'store'])->name('item.store');
+        Route::delete('/item/{item}', [ItemController::class,'destroy'])->name('item.destory');
     });
     Route::get('/', [MenuController::class,'index'])->name('menu.index');
     Route::get('/{menu}', [MenuController::class,'show'])->name('menu.show');

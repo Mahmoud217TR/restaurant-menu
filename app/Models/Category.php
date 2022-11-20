@@ -88,4 +88,14 @@ class Category extends Model
     public function containsItems(){
         return !$this->items->isEmpty();
     }
+
+    public function getContains(){
+        if($this->containsItems()){
+            return 'items';
+        }else if($this->containsSubCategories()){
+            return 'subCategories';
+        }else{
+            return null;
+        }
+    }
 }

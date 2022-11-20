@@ -2,9 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\API\CreateItemAction;
+use App\Actions\API\DeleteItemAction;
 use App\Models\Item;
 use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\UpdateItemRequest;
+use App\Http\Resources\MenuResource;
+use App\Models\Menu;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Validator;
 
 class ItemController extends Controller
 {
@@ -19,24 +26,43 @@ class ItemController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\StoreItemRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreItemRequest $request)
+    public function store(Request $request, Menu $menu, CreateItemAction $action)
     {
-        //
+        $edit_menu = Gate::inspect('update', $menu);
+
+        if($edit_menu->allowed()){
+            $validator = Validator::make($request->all(),[
+                'title' => 'required',
+                'discount' => 'nullable|numeric|max:100|min:0',
+                'price' => 'required|numeric|min:0',
+                'description' => 'nullable',
+                'category_id' => 'required|exists:categories,id',
+            ]);
+            
+            if(!$validator->passes()){
+                $errors = collect($validator->errors()->toArray())->mapWithKeys(function($value,$key) use ($request){
+                    return [$request->type.$key=>$value];
+                });
+                return response()->json([
+                    'errors' => $errors,
+                ],422);
+            }
+            
+            $item = $action->execute($request->all());
+    
+            return response()->json([
+                'menu' => new MenuResource($menu->load('mainCategories')),
+            ],200);
+        }else{
+            return response()->json([
+                'message' => 'Unauthorized Action',
+            ],403);
+        }
     }
 
     /**
@@ -79,8 +105,19 @@ class ItemController extends Controller
      * @param  \App\Models\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Item $item)
+    public function destroy(Item $item, DeleteItemAction $action)
     {
-        //
+        $delete_item = Gate::inspect('delete', $item);
+        if($delete_item->allowed()){
+            $menu = $item->category->menu;
+            $action->execute($item);
+            return response()->json([
+                'menu' => new MenuResource($menu->load('mainCategories')),
+            ],200);
+        }else{
+            return response()->json([
+                'message' => 'Unauthorized Action',
+            ],403);
+        }
     }
 }

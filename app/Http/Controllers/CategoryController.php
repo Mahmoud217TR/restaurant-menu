@@ -33,18 +33,19 @@ class CategoryController extends Controller
             $validator = Validator::make($request->all(),[
                 'title' => 'required',
                 'discount' => 'nullable|numeric|max:100|min:0',
+                'category_id' => 'nullable|exists:categories,id',
             ]);
             
             if(!$validator->passes()){
-                $errors = collect($validator->errors()->toArray())->mapWithKeys(function($value,$key){
-                    return ['category_'.$key=>$value];
+                $errors = collect($validator->errors()->toArray())->mapWithKeys(function($value,$key) use ($request){
+                    return [$request->type.$key=>$value];
                 });
                 return response()->json([
                     'errors' => $errors,
                 ],422);
             }
             
-            $category = $action->execute($menu, $request->all());
+            $category = $action->execute($menu, $request->all(), $request->category_id);
     
             return response()->json([
                 'menu' => new MenuResource($menu->load('mainCategories')),

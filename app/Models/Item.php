@@ -23,6 +23,10 @@ class Item extends Model
         'category_id',
     ];
 
+    protected $attribute = [
+        'currency_id' => 'USD',
+    ];
+
     public $casts = [
         'currency' => Currency::class,
         'price' => MoneyCast::class.':currency',
