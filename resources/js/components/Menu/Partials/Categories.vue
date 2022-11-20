@@ -12,10 +12,13 @@
             </div>
             <div :class="' bg-gray-300 '+getLevelPadding(category.level)">
                 <div class="w-full">
-                    <h2 v-if="!main" class="font-bold text-slate-900 py-4">
-                        <i class="fa-solid fa-copy mx-2"></i>
-                        <span>{{ category.title }}</span>
-                    </h2>
+                    <div class="grid grid-cols-2 items-center">
+                        <h2 v-if="!main" class="font-bold text-slate-900 py-4">
+                            <i class="fa-solid fa-copy mx-2"></i>
+                            <span>{{ category.title }}</span>
+                        </h2>
+                        <span class="text-white bg-red-600 max-w-max font-bold px-2 rounded-full justify-self-end mr-2" v-if="(category.discount&&(!main))">{{category.discount}}% Discount</span>
+                    </div>
                     <div v-for="(item, index) in category.items" class="grid grid-cols-2 py-2" :class="{'pl-2':!main,'bg-gray-200':(index%2 != 1)}">
                         <div class="p-2">
                             <p class="text-start">
