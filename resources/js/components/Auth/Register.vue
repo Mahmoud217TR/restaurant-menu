@@ -1,5 +1,6 @@
 <template>
-    <div class="container mx-auto">
+    <div class="container mx-auto" data-aos="fade-up" data-aos-offset="200"
+            data-aos-delay="100" data-aos-duration="1000" data-aos-easing="ease-in-out">
         <div class="grid grid-cols-1 lg:grid-cols-3 justify-center gap-4">
             <div class="lg:col-start-2 m-4 shadow-lg">
                 <div class="p-4 bg-slate-900 rounded-t-md">

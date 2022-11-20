@@ -1,7 +1,8 @@
 <template>
     <div class="container mt-16 w-4/5 mx-auto pb-16">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-4/5 mx-auto pb-8">
-            <div class="flex items-center justify-center md:justify-start">
+            <div class="flex items-center justify-center md:justify-start" data-aos="fade-right" data-aos-offset="200"
+            data-aos-delay="100" data-aos-duration="1000" data-aos-easing="ease-in-out">
                 <h2 class="text-white">
                     <div class="text-center max-w-max">
                         <i class="fa-solid fa-user-large block text-4xl"></i>
@@ -9,7 +10,8 @@
                     </div>
                 </h2>
             </div>
-            <div class="md:col-span-2 shadow-lg">
+            <div class="md:col-span-2 shadow-lg" data-aos="fade-left" data-aos-offset="200"
+            data-aos-delay="100" data-aos-duration="1000" data-aos-easing="ease-in-out">
                 <div class="border-2 border-solid border-slate-900 p-4 bg-gray-300">
                     <h1 class="text-center text-2xl font-bold text-slate-900">
                         <i class="fa-solid fa-utensils mx-2"></i>
@@ -19,7 +21,8 @@
                 </div>
             </div>
         </div>
-        <Categories :categories="categories" :main="true"></Categories>
+        <Categories :categories="categories" :main="true" data-aos="fade-up" data-aos-offset="200"
+            data-aos-delay="100" data-aos-duration="1000" data-aos-easing="ease-in-out"></Categories>
     </div>
 </template>
 

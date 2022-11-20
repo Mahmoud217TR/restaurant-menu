@@ -12,7 +12,7 @@
             </div>
         </nav>
     </header>
-    <main class="pt-8 min-h-[80vh]">
+    <main class="pt-8 min-h-screen">
         <router-view @auth-change="updateAuth"></router-view>
     </main>
     <Footer></Footer>
