@@ -33,9 +33,11 @@ Route::prefix('menu')->group(function(){
         Route::delete('/{menu}', [MenuController::class,'destroy'])->name('menu.destroy');
 
         Route::post('/{menu}/category', [CategoryController::class,'store'])->name('category.store');
+        Route::put('/category/{category}', [CategoryController::class,'update'])->name('category.update');
         Route::delete('/category/{category}', [CategoryController::class,'destroy'])->name('category.destory');
         
         Route::post('/{menu}/item', [ItemController::class,'store'])->name('item.store');
+        Route::put('/item/{item}', [ItemController::class,'update'])->name('item.update');
         Route::delete('/item/{item}', [ItemController::class,'destroy'])->name('item.destory');
     });
     Route::get('/', [MenuController::class,'index'])->name('menu.index');

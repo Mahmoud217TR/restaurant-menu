@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\API\CreateCategoryAction;
 use App\Actions\API\DeleteCategoryAction;
+use App\Actions\API\UpdateCategoryAction;
 use App\Models\Category;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
@@ -58,37 +59,41 @@ class CategoryController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Category $category)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Category $category)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\UpdateCategoryRequest  $request
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCategoryRequest $request, Category $category)
+    public function update(Request $request, Category $category, UpdateCategoryAction $action)
     {
-        //
+        $edit_category = Gate::inspect('update', $category);
+
+        if($edit_category->allowed()){
+            $validator = Validator::make($request->all(),[
+                'title' => 'required',
+                'discount' => 'nullable|numeric|max:100|min:0',
+            ]);
+            
+            if(!$validator->passes()){
+                $errors = collect($validator->errors()->toArray())->mapWithKeys(function($value,$key) use ($request){
+                    return [$request->type.$key=>$value];
+                });
+                return response()->json([
+                    'errors' => $errors,
+                ],422);
+            }
+            
+            $category = $action->execute($category, $request->all());
+    
+            return response()->json([
+                'menu' => new MenuResource($category->menu->load('mainCategories')),
+            ],200);
+        }else{
+            return response()->json([
+                'message' => 'Unauthorized Action',
+            ],403);
+        }
     }
 
     /**

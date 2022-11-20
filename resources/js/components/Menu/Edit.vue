@@ -58,14 +58,14 @@
                     </form>
                     <form class="grid grid-cols-3 gap-2 bg-gray-400 p-4 items-end" v-for="category in menu.categories" :ref="'category-form-'+category.id" @submit.prevent="updateCategory(category.id)">
                         <div class="block">
-                            <label class="block text-slate-900 font-bold text-lg" :for="'category_title_'+id">Title</label>
-                            <input class="block w-full mt-2 rounded-sm h-8 p-2 text-slate-900 focus:outline-none" :class="{'border-2 border-red-600':errors['category_title_'+category.id]}" type="text" required :ref="'category_title_'+id" :id="'category_title_'+id" :value="category.title">
-                            <span class="text-red-600 font-bold my-2"> {{ messages['category_title_'+id] }} </span>
+                            <label class="block text-slate-900 font-bold text-lg" :for="'category_'+category.id+'_title'">Title</label>
+                            <input class="block w-full mt-2 rounded-sm h-8 p-2 text-slate-900 focus:outline-none" :class="{'border-2 border-red-600':errors['category_'+category.id+'_title']}" type="text" required :ref="'category_'+category.id+'_title'" :id="'category_'+category.id+'_title'" :value="category.title">
+                            <span class="text-red-600 font-bold my-2"> {{ messages['category_'+category.id+'_title'] }} </span>
                         </div>
                         <div class="block">
-                            <label class="block text-slate-900 font-bold text-lg" :for="'category_discount_'+id">Discount</label>
-                            <input class="block w-full mt-2 rounded-sm h-8 p-2 text-slate-900 focus:outline-none" :class="{'border-2 border-red-600':errors['category_discount_'+category.id]}" type="number" :ref="'category_discount_'+id" :id="'category_discount_'+id" min="0" max='100' :value="category.discount">
-                            <span class="text-red-600 font-bold my-2"> {{ messages['category_discount_'+id] }} </span>
+                            <label class="block text-slate-900 font-bold text-lg" :for="'category_'+category.id+'_discount'">Discount</label>
+                            <input class="block w-full mt-2 rounded-sm h-8 p-2 text-slate-900 focus:outline-none" :class="{'border-2 border-red-600':errors['category_'+category.id+'_discount']}" type="number" :ref="'category_'+category.id+'_discount'" :id="'category_'+category.id+'_discount'" min="0" max='100' :value="category.discount">
+                            <span class="text-red-600 font-bold my-2"> {{ messages['category_'+category.id+'_discount'] }} </span>
                         </div>
                         <div class="flex w-full items-end">
                             <button class="text-white bg-slate-900 py-2 px-4 rounded-sm mx-2 max-w-max hover:bg-slate-800 block">
@@ -94,16 +94,16 @@
                                     </button>
                                 </div>
                             </form>
-                             <form class="grid grid-cols-3 gap-2 bg-gray-400 p-4 items-end" v-for="category in menu.categories" :ref="'category-form-'+category.id" @submit.prevent="updateCategory(category.id)">
+                             <form class="grid grid-cols-3 gap-2 bg-gray-400 p-4 items-end" v-for="category in category.categories" :ref="'category-form-'+category.id" @submit.prevent="updateCategory(category.id)">
                                 <div class="block">
-                                    <label class="block text-slate-900 font-bold text-lg" :for="'category_title_'+id">Title</label>
-                                    <input class="block w-full mt-2 rounded-sm h-8 p-2 text-slate-900 focus:outline-none" :class="{'border-2 border-red-600':errors['category_title_'+category.id]}" type="text" required :ref="'category_title_'+id" :id="'category_title_'+id" :value="category.title">
-                                    <span class="text-red-600 font-bold my-2"> {{ messages['category_title_'+id] }} </span>
+                                    <label class="block text-slate-900 font-bold text-lg" :for="'category_'+category.id+'_title'">Title</label>
+                                    <input class="block w-full mt-2 rounded-sm h-8 p-2 text-slate-900 focus:outline-none" :class="{'border-2 border-red-600':errors['category_'+category.id+'_title']}" type="text" required :ref="'category_'+category.id+'_title'" :id="'category_'+category.id+'_title'" :value="category.title">
+                                    <span class="text-red-600 font-bold my-2"> {{ messages['category_'+category.id+'_title'] }} </span>
                                 </div>
                                 <div class="block">
-                                    <label class="block text-slate-900 font-bold text-lg" :for="'category_discount_'+id">Discount</label>
-                                    <input class="block w-full mt-2 rounded-sm h-8 p-2 text-slate-900 focus:outline-none" :class="{'border-2 border-red-600':errors['category_discount_'+category.id]}" type="number" :ref="'category_discount_'+id" :id="'category_discount_'+id" min="0" max='100' :value="category.discount">
-                                    <span class="text-red-600 font-bold my-2"> {{ messages['category_discount_'+id] }} </span>
+                                    <label class="block text-slate-900 font-bold text-lg" :for="'category_'+category.id+'_discount'">Discount</label>
+                                    <input class="block w-full mt-2 rounded-sm h-8 p-2 text-slate-900 focus:outline-none" :class="{'border-2 border-red-600':errors['category_'+category.id+'_discount']}" type="number" :ref="'category_'+category.id+'_discount'" :id="'category_'+category.id+'_discount'" min="0" max='100' :value="category.discount">
+                                    <span class="text-red-600 font-bold my-2"> {{ messages['category_'+category.id+'_discount'] }} </span>
                                 </div>
                                 <div class="flex w-full items-end">
                                     <button class="text-white bg-slate-900 py-2 px-4 rounded-sm mx-2 max-w-max hover:bg-slate-800 block">
@@ -162,7 +162,7 @@
                                 </div>
                                 <div class="block mb-4">
                                     <label class="block text-slate-900 font-bold text-lg" :for="'item_'+item.id+'_price'">Price</label>
-                                    <input class="block w-full mt-2 rounded-sm h-8 p-2 text-slate-900 focus:outline-none" :class="{'border-2 border-red-600':errors['item_'+item.id+'_price']}" type="number" :ref="'item_'+item.id+'_price'" :id="'item_'+item.id+'_price'" min="0" :value="item.price.amount">
+                                    <input class="block w-full mt-2 rounded-sm h-8 p-2 text-slate-900 focus:outline-none" :class="{'border-2 border-red-600':errors['item_'+item.id+'_price']}" type="number" :ref="'item_'+item.id+'_price'" :id="'item_'+item.id+'_price'" min="0" :value="item.price.amount/100">
                                     <span class="text-red-600 font-bold my-2"> {{ messages['item_'+item.id+'_price'] }} </span>
                                 </div>
                                 <div class="block mb-4">
@@ -245,6 +245,23 @@
                     });
                 });
             },
+            updateCategory(id){
+                axios.get('/sanctum/csrf-cookie').then(csrf_response =>{
+                    this.restErrors();
+                    axios.put('/api/menu/category/'+id,{
+                        title: this.getInputOf('category_'+id+'_title'),
+                        discount: this.getInputOf('category_'+id+'_discount'),
+                        type: 'category_'+id+'_',
+                    }).then(response => {
+                        this.menu = response.data.menu;
+                    }).catch(error => {
+                        var errors_list = error.response.data.errors;
+                        for(var input_error in errors_list){
+                            this.setError(input_error,errors_list[input_error][0])
+                        }
+                    });
+                });
+            },
             addSubCategory(id){
                 axios.get('/sanctum/csrf-cookie').then(csrf_response =>{
                     this.restErrors();
@@ -280,12 +297,31 @@
                         title: this.getInputOf('item_add_'+id+'_title'),
                         discount: this.getInputOf('item_add_'+id+'_discount'),
                         description: this.getInputOf('item_add_'+id+'_description'),
-                        price: this.getInputOf('item_add_'+id+'_price'),
+                        price: this.getInputOf('item_add_'+id+'_price')*100,
                         category_id: id,
                         type: 'item_add_'+id+'_',
                     }).then(response => {
                         this.menu = response.data.menu;
                         this.resetFormOf('new-item-form-'+id);
+                    }).catch(error => {
+                        var errors_list = error.response.data.errors;
+                        for(var input_error in errors_list){
+                            this.setError(input_error,errors_list[input_error][0])
+                        }
+                    });
+                });
+            },
+            updateItem(id){
+                axios.get('/sanctum/csrf-cookie').then(csrf_response =>{
+                    this.restErrors();
+                    axios.put('/api/menu/item/'+id,{
+                        title: this.getInputOf('item_'+id+'_title'),
+                        discount: this.getInputOf('item_'+id+'_discount'),
+                        description: this.getInputOf('item_'+id+'_description'),
+                        price: this.getInputOf('item_'+id+'_price')*100,
+                        type: 'item_'+id+'_',
+                    }).then(response => {
+                        this.menu = response.data.menu;
                     }).catch(error => {
                         var errors_list = error.response.data.errors;
                         for(var input_error in errors_list){

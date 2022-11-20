@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\API\CreateItemAction;
 use App\Actions\API\DeleteItemAction;
+use App\Actions\API\UpdateItemAction;
 use App\Models\Item;
 use App\Http\Requests\StoreItemRequest;
 use App\Http\Requests\UpdateItemRequest;
@@ -94,9 +95,35 @@ class ItemController extends Controller
      * @param  \App\Models\Item  $item
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateItemRequest $request, Item $item)
+    public function update(Request $request, Item $item, UpdateItemAction $action)
     {
-        //
+        $edit_item = Gate::inspect('update', $item);
+
+        if($edit_item->allowed()){
+            $validator = Validator::make($request->all(),[
+                'title' => 'required',
+                'discount' => 'nullable|numeric|max:100|min:0',
+            ]);
+            
+            if(!$validator->passes()){
+                $errors = collect($validator->errors()->toArray())->mapWithKeys(function($value,$key) use ($request){
+                    return [$request->type.$key=>$value];
+                });
+                return response()->json([
+                    'errors' => $errors,
+                ],422);
+            }
+            
+            $item = $action->execute($item, $request->all());
+    
+            return response()->json([
+                'menu' => new MenuResource($item->category->menu->load('mainCategories')),
+            ],200);
+        }else{
+            return response()->json([
+                'message' => 'Unauthorized Action',
+            ],403);
+        }
     }
 
     /**
