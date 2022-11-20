@@ -57,7 +57,28 @@
                             </button>
                         </div>
                     </form>
-                    
+                    <form class="grid grid-cols-3 gap-2 bg-gray-400 p-4 items-end" v-for="category in menu.categories" :ref="'category-form-'+category.id" @submit.prevent="updateCategory(category.id)">
+                        <div class="block">
+                            <label class="block text-slate-900 font-bold text-lg" for="category_title">Title</label>
+                            <input class="block w-full mt-2 rounded-sm h-8 p-2 text-slate-900 focus:outline-none" :class="{'border-2 border-red-600':errors['category_title_'+category.id]}" type="text" required ref="category_title" :value="category.title">
+                            <span class="text-red-600 font-bold my-2"> {{ messages['category_title_'+category.id] }} </span>
+                        </div>
+                        <div class="block">
+                            <label class="block text-slate-900 font-bold text-lg" for="discount">Discount</label>
+                            <input class="block w-full mt-2 rounded-sm h-8 p-2 text-slate-900 focus:outline-none" :class="{'border-2 border-red-600':errors['category_discount_'+category.id]}" type="number" ref="category_discount" min="0" max='100' :value="category.discount">
+                            <span class="text-red-600 font-bold my-2"> {{ messages['category_discount_'+category.id] }} </span>
+                        </div>
+                        <div class="flex w-full items-end">
+                            <button class="text-white bg-slate-900 py-2 px-4 rounded-sm mx-2 max-w-max hover:bg-slate-800 block">
+                                <i class="fa-solid fa-check mx-2"></i>
+                                <span class="font-bold">Update Category</span>
+                            </button>
+                            <button class="text-white bg-red-700 py-2 px-4 rounded-sm mx-2 max-w-max hover:bg-red-600 block" @click.prevent="removeCategory(category.id)">
+                                <i class="fa-solid fa-trash mx-2"></i>
+                                <span class="font-bold">Remove Category</span>
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -144,6 +165,15 @@
                     });
                 });
             },
+            removeCategory(id){
+                axios.get('/sanctum/csrf-cookie').then(csrf_response =>{
+                    axios.delete('/api/menu/category/'+id).then(response => {
+                        this.menu = response.data.menu;
+                    }).catch(error => {
+
+                    });
+                });
+            }
         },
         created() {
             this.id = this.$route.params.id

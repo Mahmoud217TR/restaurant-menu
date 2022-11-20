@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actions\API\CreateCategoryAction;
+use App\Actions\API\DeleteCategoryAction;
 use App\Models\Category;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
@@ -95,8 +96,19 @@ class CategoryController extends Controller
      * @param  \App\Models\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category)
+    public function destroy(Category $category, DeleteCategoryAction $action)
     {
-        //
+        $delete_category = Gate::inspect('delete', $category);
+        if($delete_category->allowed()){
+            $menu = $category->menu;
+            $action->execute($category);
+            return response()->json([
+                'menu' => new MenuResource($menu->load('mainCategories')),
+            ],200);
+        }else{
+            return response()->json([
+                'message' => 'Unauthorized Action',
+            ],403);
+        }
     }
 }

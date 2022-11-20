@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Actions\API\CreateMenuAction;
+use App\Actions\API\DeleteMenuAction;
 use App\Actions\API\UpdateMenuAction;
 use App\Models\Menu;
 use App\Http\Requests\StoreMenuRequest;
@@ -137,12 +138,19 @@ class MenuController extends Controller
      * @param  \App\Models\Menu  $menu
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Menu $menu)
+    public function destroy(Menu $menu, DeleteMenuAction $action)
     {
-        $this->authorize('delete',$menu);
-        $menu->delete();
-        return response()->json([
-            'menus' => MenuResource::collection(auth()->user()->menus),
-        ],200);
+        $delete_menu = Gate::inspect('delete', $menu);
+        if($delete_menu->allowed()){
+            $action->execute($menu);
+            return response()->json([
+                'menus' => MenuResource::collection(auth()->user()->menus),
+            ],200);
+        }else{
+            return response()->json([
+                'message' => 'Unauthorized Action',
+            ],403);
+        }
+        
     }
 }
